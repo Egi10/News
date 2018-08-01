@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 use App\News;
 use App\Transformers\NewsTransformers;
+use Storage;
 
 // sudo apt-get install php-gd php-mysql
 
@@ -41,6 +42,7 @@ class NewsController extends Controller
   public function destroy($id)
   {
     $del = News::find($id);
+    Storage::delete($del->image);
     $del->delete();
     return redirect('viewnews');
   }
@@ -58,6 +60,7 @@ class NewsController extends Controller
     $update->title = $request->title;
     $update->description = $request->description;
     if($request->hasfile('image')){
+      Storage::delete($update->image);
       $file = $request->file('image')->store('uploads');
       $update->image = $file;
     }
