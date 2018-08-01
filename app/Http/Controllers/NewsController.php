@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\DB;
 use App\News;
 use App\Transformers\NewsTransformers;
 
+// sudo apt-get install php-gd php-mysql
+
 class NewsController extends Controller
 {
   public function create()
@@ -72,6 +74,7 @@ class NewsController extends Controller
     return fractal()
       ->collection($newss)
       ->transformWith(new NewsTransformers)
+      ->includeCharacters()
       ->toArray();
   }
 }
